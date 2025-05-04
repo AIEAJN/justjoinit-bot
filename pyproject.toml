@@ -1,0 +1,17 @@
+[project]
+name = "justjoinit-bot"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Emon Nathan (Satoshi)",email = "nathanuchia@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+pyside6 = "^6.9.0"
