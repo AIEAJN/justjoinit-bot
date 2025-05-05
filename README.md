@@ -12,9 +12,26 @@ A Python bot that automates job searching and application process on justjoin.it
 ## Prerequisites
 
 - Python 3.8+
-- Chrome browser installed
 - Poetry package manager
 
 ## Installation
-
 1. Install Poetry if you haven't already:
+   ```bash
+   curl -sSL https://install.python-poetry.org | python3 -
+   ```
+
+2. Install the dependencies:
+   ```bash
+   poetry install
+   ```
+
+3. Configure Python environment:
+   ```bash 
+   poetry env use python3.13
+   ```
+
+4. Activate the virtual environment:
+   ```bash
+   poetry shell
+   ```
+5. Execute the app.py file
