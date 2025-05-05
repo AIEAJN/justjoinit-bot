@@ -9,6 +9,9 @@ ApplicationWindow {
     height: 500
     title: "Setup The bot"
 
+    property bool isLoading: false
+    property bool hasJobs: false
+
     Rectangle {
         anchors.centerIn: parent
         width: 400
@@ -37,6 +40,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
                 Material.accent: "#007bff"
+                enabled: !isLoading
             }
 
             TextField {
@@ -46,18 +50,106 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
                 Material.accent: "#007bff"
+                enabled: !isLoading
             }
 
             Button {
+                id: validateButton
                 text: "Valider"
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 150
                 Layout.preferredHeight: 40
                 Material.background: "#007bff"
                 Material.foreground: "white"
+                enabled: !isLoading
+                visible: !isLoading
                 onClicked: {
+                    isLoading = true
                     backend.set_config(locationField.text, positionField.text)
                 }
+            }
+
+            ColumnLayout {
+                visible: isLoading
+                Layout.fillWidth: true
+                spacing: 10
+
+                ProgressBar {
+                    Layout.fillWidth: true
+                    indeterminate: true
+                    Material.accent: "#007bff"
+                }
+
+                Text {
+                    text: backend.loadingMessage
+                    Layout.alignment: Qt.AlignHCenter
+                    font.pixelSize: 14
+                    wrapMode: Text.WordWrap
+                    Layout.maximumWidth: parent.width
+                }
+            }
+        }
+    }
+
+    Dialog {
+        id: completionDialog
+        title: "Process completed"
+        modal: true
+        standardButtons: Dialog.Ok
+        anchors.centerIn: parent
+        width: 300
+
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 10
+
+            Text {
+                text: "The process is completed.\nThe file 'applied_jobs.csv' has been generated."
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
+        onAccepted: {
+            close()
+        }
+    }
+
+    Dialog {
+        id: noJobsDialog
+        title: "No jobs found"
+        modal: true
+        standardButtons: Dialog.Ok
+        anchors.centerIn: parent
+        width: 300
+
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 10
+
+            Text {
+                text: "No jobs found.\nPlease try again with different parameters."
+                wrapMode: Text.WordWrap
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
+        onAccepted: {
+            close()
+        }
+    }
+
+    Connections {
+        target: backend
+        function onLoadedChanged(loaded) {
+            isLoading = !loaded
+            if (loaded && hasJobs) {
+                completionDialog.open()
+            }
+            else {
+                noJobsDialog.open()
             }
         }
     }
