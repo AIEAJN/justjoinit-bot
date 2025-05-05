@@ -51,7 +51,7 @@ class BotThread(QThread):
         finally:
             self.finished.emit()
 
-
+ 
 class Backend(QObject):
     loadedChanged = Signal(bool)
     loadingMessageChanged = Signal(str)

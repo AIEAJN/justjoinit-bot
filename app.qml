@@ -140,6 +140,7 @@ ApplicationWindow {
             close()
         }
     }
+     
 
     Connections {
         target: backend

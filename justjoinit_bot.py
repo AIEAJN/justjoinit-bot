@@ -77,7 +77,7 @@ def search_jobs(driver:webdriver.Chrome):
 def apply_to_job(driver:webdriver.Chrome, job_url:str, job:str):
     driver.get(job_url)
     time.sleep(2)
-    try:
+    try: 
         # Handle cookie, because it's a popup
         try:
             cookie_dialog = driver.find_element(By.ID, "cookiescript_injected_wrapper")
